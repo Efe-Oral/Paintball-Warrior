@@ -11,15 +11,17 @@ public class PaintSprayer : MonoBehaviour
     private PlayerMovement playerMovement;
     private float sprayTimer;
     private Mesh splatMesh;
-    private Material splatMaterial;
+    private Mesh ballMesh;
+    private Material paintMaterial;
 
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        splatMesh = CreateSplatMesh();
+        splatMesh = CreatePrimitiveMesh(PrimitiveType.Cylinder);
+        ballMesh = CreatePrimitiveMesh(PrimitiveType.Sphere);
 
-        splatMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-        splatMaterial.color = config.paintColor;
+        paintMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        paintMaterial.color = config.paintColor;
     }
 
     private void Update()
@@ -46,9 +48,28 @@ public class PaintSprayer : MonoBehaviour
     {
         Vector3 groundPos = new Vector3(transform.position.x, coverageGrid.FloorHeight, transform.position.z);
         Vector3 paintPoint = groundPos + playerMovement.MoveDirection.normalized * config.muzzleOffset;
+        Vector3 launchPoint = groundPos + Vector3.up * config.gunHeight;
+        Vector3 impactPoint = paintPoint + Vector3.up * config.gunHeight;
 
-        coverageGrid.MarkCircle(paintPoint, config.paintRadius);
-        SpawnSplat(paintPoint);
+        SpawnPaintBall(launchPoint, impactPoint, paintPoint);
+    }
+
+    private void SpawnPaintBall(Vector3 from, Vector3 flightTarget, Vector3 groundImpactPoint)
+    {
+        GameObject ball = new GameObject("PaintBall");
+        ball.transform.position = from;
+        ball.transform.localScale = Vector3.one * config.ballRadius * 2f;
+
+        MeshFilter meshFilter = ball.AddComponent<MeshFilter>();
+        meshFilter.sharedMesh = ballMesh;
+
+        MeshRenderer meshRenderer = ball.AddComponent<MeshRenderer>();
+        meshRenderer.sharedMaterial = paintMaterial;
+        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        meshRenderer.receiveShadows = false;
+
+        PaintBall paintBall = ball.AddComponent<PaintBall>();
+        paintBall.Launch(from, flightTarget, config.ballSpeed, coverageGrid, config.paintRadius, _ => SpawnSplat(groundImpactPoint));
     }
 
     private void SpawnSplat(Vector3 groundPos)
@@ -72,14 +93,14 @@ public class PaintSprayer : MonoBehaviour
         meshFilter.sharedMesh = splatMesh;
 
         MeshRenderer meshRenderer = splat.AddComponent<MeshRenderer>();
-        meshRenderer.sharedMaterial = splatMaterial;
+        meshRenderer.sharedMaterial = paintMaterial;
         meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         meshRenderer.receiveShadows = false;
     }
 
-    private static Mesh CreateSplatMesh()
+    private static Mesh CreatePrimitiveMesh(PrimitiveType type)
     {
-        GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        GameObject temp = GameObject.CreatePrimitive(type);
         Mesh mesh = temp.GetComponent<MeshFilter>().sharedMesh;
         Destroy(temp);
         return mesh;

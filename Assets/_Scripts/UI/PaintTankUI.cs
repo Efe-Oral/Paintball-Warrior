@@ -6,9 +6,24 @@ public class PaintTankUI : MonoBehaviour
     [SerializeField] private PaintTank paintTank;
     [SerializeField] private TMP_Text label;
 
-    private void Update()
+    private void Start()
     {
-        int percent = Mathf.CeilToInt(paintTank.NormalizedRemaining * 100f);
+        HandlePaintChanged(paintTank.Current, paintTank.Capacity);
+    }
+
+    private void OnEnable()
+    {
+        paintTank.PaintChanged += HandlePaintChanged;
+    }
+
+    private void OnDisable()
+    {
+        paintTank.PaintChanged -= HandlePaintChanged;
+    }
+
+    private void HandlePaintChanged(float current, float capacity)
+    {
+        int percent = Mathf.CeilToInt(capacity > 0f ? current / capacity * 100f : 0f);
         label.text = "Paint: " + percent + "%";
     }
 }

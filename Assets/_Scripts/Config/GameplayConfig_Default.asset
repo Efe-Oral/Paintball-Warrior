@@ -13,3 +13,19 @@ MonoBehaviour:
   m_Name: GameplayConfig_Default
   m_EditorClassIdentifier: Assembly-CSharp::GameplayConfig
   moveSpeed: 6
+  cellSize: 0.25
+  muzzleOffset: 2.13
+  paintRadius: 0.7
+  sprayInterval: 0.08
+  coverageThreshold: 0.85
+  star2RemainingThreshold: 0.5
+  star3RemainingThreshold: 0.75
+  paintTankCapacity: 100
+  drainRate: 10
+  ballSpeed: 18
+  ballRadius: 0.15
+  gunHeight: 1
+  paintColor: {r: 0.1, g: 0.45, b: 0.95, a: 1}
+  splatCoverageMultiplierMin: 1.1
+  splatCoverageMultiplierMax: 1.4
+  splatThickness: 0.02

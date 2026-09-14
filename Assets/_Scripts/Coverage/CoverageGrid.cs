@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
 public class CoverageGrid : MonoBehaviour
 {
     [SerializeField] private GameplayConfig config;
+
+    public event Action<float> CoverageChanged;
 
     private bool[] painted;
     private int columns;
@@ -33,6 +36,7 @@ public class CoverageGrid : MonoBehaviour
         int maxRow = Mathf.Clamp(WorldToRow(worldPos.z + radius), 0, rows - 1);
 
         float sqrRadius = radius * radius;
+        int newlyPainted = 0;
 
         for (int row = minRow; row <= maxRow; row++)
         {
@@ -51,11 +55,18 @@ public class CoverageGrid : MonoBehaviour
                 {
                     painted[index] = true;
                     paintedCount++;
+                    newlyPainted++;
                 }
             }
         }
 
+        if (newlyPainted == 0)
+        {
+            return;
+        }
+
         CoveragePercent = (float)paintedCount / painted.Length;
+        CoverageChanged?.Invoke(CoveragePercent);
     }
 
     private int WorldToColumn(float worldX)

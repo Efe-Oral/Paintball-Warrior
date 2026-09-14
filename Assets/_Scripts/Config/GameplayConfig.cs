@@ -18,10 +18,23 @@ public class GameplayConfig : ScriptableObject
     [Tooltip("Seconds between spray ticks while moving.")]
     public float sprayInterval = 0.08f;
 
+    [Header("Level")]
+    [Range(0f, 1f)] public float coverageThreshold = 0.85f;
+    [Range(0f, 1f)] public float star2RemainingThreshold = 0.5f;
+    [Range(0f, 1f)] public float star3RemainingThreshold = 0.75f;
+
     [Header("Paint Tank")]
     public float paintTankCapacity = 100f;
     [Tooltip("Units of paint drained per second while actively spraying.")]
     public float drainRate = 10f;
+
+    [Header("Paint Ball")]
+    [Tooltip("How fast the thrown paint ball travels toward its target.")]
+    public float ballSpeed = 14f;
+    [Tooltip("Visual radius of the flying paint ball.")]
+    public float ballRadius = 0.15f;
+    [Tooltip("Height above the floor the ball travels at before impact.")]
+    public float gunHeight = 0.6f;
 
     [Header("Splat Visuals")]
     public Color paintColor = new Color(0.1f, 0.45f, 0.95f, 1f);
