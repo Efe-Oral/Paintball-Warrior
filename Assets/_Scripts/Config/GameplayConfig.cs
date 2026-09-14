@@ -18,6 +18,11 @@ public class GameplayConfig : ScriptableObject
     [Tooltip("Seconds between spray ticks while moving.")]
     public float sprayInterval = 0.08f;
 
+    [Header("Paint Tank")]
+    public float paintTankCapacity = 100f;
+    [Tooltip("Units of paint drained per second while actively spraying.")]
+    public float drainRate = 10f;
+
     [Header("Splat Visuals")]
     public Color paintColor = new Color(0.1f, 0.45f, 0.95f, 1f);
     [Tooltip("Splat visual radius is paintRadius times a value in this range, so it always generously covers the cells it marks.")]

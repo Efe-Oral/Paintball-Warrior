@@ -5,6 +5,7 @@ public class PaintSprayer : MonoBehaviour
 {
     [SerializeField] private GameplayConfig config;
     [SerializeField] private CoverageGrid coverageGrid;
+    [SerializeField] private PaintTank paintTank;
     [SerializeField] private Transform splatContainer;
 
     private PlayerMovement playerMovement;
@@ -23,11 +24,13 @@ public class PaintSprayer : MonoBehaviour
 
     private void Update()
     {
-        if (!playerMovement.IsMoving)
+        if (!playerMovement.IsMoving || paintTank.IsEmpty)
         {
             sprayTimer = 0f;
             return;
         }
+
+        paintTank.Drain(config.drainRate * Time.deltaTime);
 
         sprayTimer -= Time.deltaTime;
         if (sprayTimer > 0f)
