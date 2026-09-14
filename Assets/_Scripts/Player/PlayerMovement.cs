@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
 
+    public bool IsMoving { get; private set; }
+    public Vector3 MoveDirection { get; private set; }
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -34,9 +37,12 @@ public class PlayerMovement : MonoBehaviour
             motion.Normalize();
         }
 
-        if (motion.sqrMagnitude > 0.0001f)
+        IsMoving = motion.sqrMagnitude > 0.0001f;
+
+        if (IsMoving)
         {
             transform.forward = motion;
+            MoveDirection = motion;
         }
 
         controller.Move(motion * config.moveSpeed * Time.deltaTime);
