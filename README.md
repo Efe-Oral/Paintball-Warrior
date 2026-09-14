@@ -1,6 +1,6 @@
 # Paintball Warrior
 
-> A mobile arena game about covering everything in paint.
+> A mobile arena game about covering everything in paint. [***Moodboard***](https://canva.link/uxp65xgh14i1p6l)
 
 <img width="2048" height="1143" alt="Paintball Warrior banner" src="https://github.com/user-attachments/assets/e5054dda-ec6f-46cc-80f0-131c41444aaa" />
 
