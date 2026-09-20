@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e049237fc943e2a4f8bab73beac1570b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoverageUI
-  coverageGrid: {fileID: 0}
+  coverageGrid: {fileID: 459756605}
   label: {fileID: 953911301}
 --- !u!114 &418060719
 MonoBehaviour:
@@ -1576,7 +1576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelController
   config: {fileID: 11400000, guid: bdbf018e08735914abd50c2f4b8d83ac, type: 2}
-  coverageGrid: {fileID: 0}
+  coverageGrid: {fileID: 459756605}
   paintTank: {fileID: 2099380157}
   playerMovement: {fileID: 2099380151}
   paintSprayer: {fileID: 2099380156}
@@ -2373,7 +2373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PaintSprayer
   config: {fileID: 11400000, guid: bdbf018e08735914abd50c2f4b8d83ac, type: 2}
-  coverageGrid: {fileID: 0}
+  coverageGrid: {fileID: 459756605}
   paintTank: {fileID: 2099380157}
   splatContainer: {fileID: 1666262072}
 --- !u!114 &2099380157

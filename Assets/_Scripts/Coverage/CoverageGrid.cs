@@ -25,7 +25,7 @@ public class CoverageGrid : MonoBehaviour
         columns = Mathf.Max(1, Mathf.CeilToInt(bounds.size.x / cellSize));
         rows = Mathf.Max(1, Mathf.CeilToInt(bounds.size.z / cellSize));
         painted = new bool[columns * rows];
-        originWorld = new Vector3(bounds.min.x, bounds.center.y, bounds.min.z);
+        originWorld = new Vector3(bounds.min.x, bounds.max.y, bounds.min.z);
     }
 
     public void MarkCircle(Vector3 worldPos, float radius)
