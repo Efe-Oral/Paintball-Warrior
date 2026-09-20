@@ -1,23 +1,11 @@
 using UnityEngine;
 
-public enum CameraViewMode { Fixed, Isometric }
-
 [CreateAssetMenu(fileName = "GameplayConfig", menuName = "PaintGame/Gameplay Config")]
 public class GameplayConfig : ScriptableObject
 {
     [Header("Movement")]
     public float moveSpeed = 6f;
 
-    [Header("Camera")]
-    [Tooltip("Fixed: camera looks straight along +Z. Isometric: camera is rotated around Y by isometricYaw. Input follows the camera either way.")]
-    public CameraViewMode viewMode = CameraViewMode.Fixed;
-    [Tooltip("Downward tilt of the camera in degrees.")]
-    public float cameraPitch = 55f;
-    [Tooltip("Yaw applied in Isometric mode.")]
-    public float isometricYaw = 45f;
-    public float cameraDistance = 15f;
-    [Tooltip("World point the camera looks at (arena center).")]
-    public Vector3 cameraFocusPoint = Vector3.zero;
 
     [Header("Coverage Grid")]
     [Tooltip("World-space size of one invisible coverage cell. Controls percentage granularity, not visual quality.")]
