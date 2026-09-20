@@ -1,17 +1,32 @@
 using UnityEngine;
 
+public enum CameraViewMode { Fixed, Isometric }
+
 [CreateAssetMenu(fileName = "GameplayConfig", menuName = "PaintGame/Gameplay Config")]
 public class GameplayConfig : ScriptableObject
 {
     [Header("Movement")]
     public float moveSpeed = 6f;
 
+    [Header("Camera")]
+    [Tooltip("Fixed: camera looks straight along +Z. Isometric: camera is rotated around Y by isometricYaw. Input follows the camera either way.")]
+    public CameraViewMode viewMode = CameraViewMode.Fixed;
+    [Tooltip("Downward tilt of the camera in degrees.")]
+    public float cameraPitch = 55f;
+    [Tooltip("Yaw applied in Isometric mode.")]
+    public float isometricYaw = 45f;
+    public float cameraDistance = 15f;
+    [Tooltip("World point the camera looks at (arena center).")]
+    public Vector3 cameraFocusPoint = Vector3.zero;
+
     [Header("Coverage Grid")]
     [Tooltip("World-space size of one invisible coverage cell. Controls percentage granularity, not visual quality.")]
     public float cellSize = 0.25f;
 
     [Header("Spray")]
-    [Tooltip("How far ahead of the player the paint lands.")]
+    [Tooltip("How far in front of the player's center the muzzle sits (should clear the player's own collider).")]
+    public float gunForwardOffset = 0.5f;
+    [Tooltip("Max distance the paint travels from the muzzle before landing on the floor if nothing is in the way.")]
     public float muzzleOffset = 0.6f;
     [Tooltip("Radius of floor marked painted per spray tick.")]
     public float paintRadius = 0.7f;
@@ -27,6 +42,11 @@ public class GameplayConfig : ScriptableObject
     public float paintTankCapacity = 100f;
     [Tooltip("Units of paint drained per second while actively spraying.")]
     public float drainRate = 10f;
+
+    [Header("Structures")]
+    [Tooltip("Number of angular slices a structure's surface is divided into for coverage tracking.")]
+    public int structureSegments = 8;
+    public Color structureDoneColor = new Color(0.2f, 0.9f, 0.3f, 1f);
 
     [Header("Paint Ball")]
     [Tooltip("How fast the thrown paint ball travels toward its target.")]

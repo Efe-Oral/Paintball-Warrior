@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private InputActionReference moveAction;
 
     private CharacterController controller;
+    private Transform cameraTransform;
 
     public bool IsMoving { get; private set; }
     public Vector3 MoveDirection { get; private set; }
@@ -29,8 +30,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (cameraTransform == null && Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
+        }
+
         Vector2 input = moveAction.action.ReadValue<Vector2>();
-        Vector3 motion = new Vector3(input.x, 0f, input.y);
+        float cameraYaw = cameraTransform != null ? cameraTransform.eulerAngles.y : 0f;
+        Vector3 motion = Quaternion.Euler(0f, cameraYaw, 0f) * new Vector3(input.x, 0f, input.y);
 
         if (motion.sqrMagnitude > 1f)
         {

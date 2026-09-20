@@ -13,15 +13,23 @@ MonoBehaviour:
   m_Name: GameplayConfig_Default
   m_EditorClassIdentifier: Assembly-CSharp::GameplayConfig
   moveSpeed: 6
+  viewMode: 0
+  cameraPitch: 55
+  isometricYaw: 45
+  cameraDistance: 15
+  cameraFocusPoint: {x: 0, y: 0, z: 0}
   cellSize: 0.25
+  gunForwardOffset: 0.5
   muzzleOffset: 2.13
   paintRadius: 0.7
   sprayInterval: 0.08
   coverageThreshold: 0.85
   star2RemainingThreshold: 0.5
   star3RemainingThreshold: 0.75
-  paintTankCapacity: 100
+  paintTankCapacity: 200
   drainRate: 10
+  structureSegments: 8
+  structureDoneColor: {r: 0.2, g: 0.9, b: 0.3, a: 1}
   ballSpeed: 18
   ballRadius: 0.15
   gunHeight: 1

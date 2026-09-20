@@ -47,14 +47,31 @@ public class PaintSprayer : MonoBehaviour
     private void Spray()
     {
         Vector3 groundPos = new Vector3(transform.position.x, coverageGrid.FloorHeight, transform.position.z);
-        Vector3 paintPoint = groundPos + playerMovement.MoveDirection.normalized * config.muzzleOffset;
-        Vector3 launchPoint = groundPos + Vector3.up * config.gunHeight;
-        Vector3 impactPoint = paintPoint + Vector3.up * config.gunHeight;
+        Vector3 direction = playerMovement.MoveDirection.normalized;
+        Vector3 muzzlePos = groundPos + direction * config.gunForwardOffset + Vector3.up * config.gunHeight;
 
-        SpawnPaintBall(launchPoint, impactPoint, paintPoint);
+        // Default: nothing in the way, paint lands on the floor at max range.
+        Vector3 flightTarget = muzzlePos + direction * config.muzzleOffset;
+        Vector3 impactPoint = groundPos + direction * (config.gunForwardOffset + config.muzzleOffset);
+        Vector3 impactNormal = Vector3.up;
+        PaintableStructure hitStructure = null;
+
+        if (Physics.Raycast(muzzlePos, direction, out RaycastHit hit, config.muzzleOffset))
+        {
+            PaintableStructure structure = hit.collider.GetComponentInParent<PaintableStructure>();
+            if (structure != null)
+            {
+                hitStructure = structure;
+                flightTarget = hit.point;
+                impactPoint = hit.point;
+                impactNormal = hit.normal;
+            }
+        }
+
+        SpawnPaintBall(muzzlePos, flightTarget, impactPoint, impactNormal, hitStructure);
     }
 
-    private void SpawnPaintBall(Vector3 from, Vector3 flightTarget, Vector3 groundImpactPoint)
+    private void SpawnPaintBall(Vector3 from, Vector3 flightTarget, Vector3 impactPoint, Vector3 impactNormal, PaintableStructure structure)
     {
         GameObject ball = new GameObject("PaintBall");
         ball.transform.position = from;
@@ -69,15 +86,17 @@ public class PaintSprayer : MonoBehaviour
         meshRenderer.receiveShadows = false;
 
         PaintBall paintBall = ball.AddComponent<PaintBall>();
-        paintBall.Launch(from, flightTarget, config.ballSpeed, coverageGrid, config.paintRadius, _ => SpawnSplat(groundImpactPoint));
+        paintBall.Launch(from, flightTarget, impactPoint, impactNormal, config.ballSpeed, coverageGrid, config.paintRadius, structure, SpawnSplat);
     }
 
-    private void SpawnSplat(Vector3 groundPos)
+    private void SpawnSplat(Vector3 position, Vector3 normal)
     {
         GameObject splat = new GameObject("Splat");
         splat.transform.SetParent(splatContainer, worldPositionStays: false);
-        splat.transform.position = groundPos + Vector3.up * 0.01f;
-        splat.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+        splat.transform.position = position + normal * 0.015f;
+
+        float randomSpin = Random.Range(0f, 360f);
+        splat.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal) * Quaternion.Euler(0f, randomSpin, 0f);
 
         float coverageMultiplier = Random.Range(config.splatCoverageMultiplierMin, config.splatCoverageMultiplierMax);
         float worldRadius = config.paintRadius * coverageMultiplier;

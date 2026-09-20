@@ -17,17 +17,33 @@ public class LevelController : MonoBehaviour
     public event Action<float> LevelLost;
 
     private State state = State.Playing;
+    private PaintableStructure[] structures;
+
+    private void Awake()
+    {
+        structures = FindObjectsByType<PaintableStructure>(FindObjectsSortMode.None);
+    }
 
     private void OnEnable()
     {
         coverageGrid.CoverageChanged += HandleCoverageChanged;
         paintTank.Emptied += HandleTankEmptied;
+
+        foreach (PaintableStructure structure in structures)
+        {
+            structure.Completed += HandleStructureCompleted;
+        }
     }
 
     private void OnDisable()
     {
         coverageGrid.CoverageChanged -= HandleCoverageChanged;
         paintTank.Emptied -= HandleTankEmptied;
+
+        foreach (PaintableStructure structure in structures)
+        {
+            structure.Completed -= HandleStructureCompleted;
+        }
     }
 
     private void Update()
@@ -45,10 +61,12 @@ public class LevelController : MonoBehaviour
 
     private void HandleCoverageChanged(float percent)
     {
-        if (state == State.Playing && percent >= config.coverageThreshold)
-        {
-            Win();
-        }
+        TryWin();
+    }
+
+    private void HandleStructureCompleted()
+    {
+        TryWin();
     }
 
     private void HandleTankEmptied()
@@ -57,6 +75,29 @@ public class LevelController : MonoBehaviour
         {
             Lose();
         }
+    }
+
+    private void TryWin()
+    {
+        if (state != State.Playing)
+        {
+            return;
+        }
+
+        if (coverageGrid.CoveragePercent < config.coverageThreshold)
+        {
+            return;
+        }
+
+        foreach (PaintableStructure structure in structures)
+        {
+            if (!structure.IsComplete)
+            {
+                return;
+            }
+        }
+
+        Win();
     }
 
     private void Win()
