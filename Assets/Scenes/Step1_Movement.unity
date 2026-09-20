@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 266088263}
   - component: {fileID: 266088262}
   m_Layer: 0
-  m_Name: Virtual Camera
+  m_Name: Virtual Camera (isometric)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -474,8 +474,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 5
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -2222,7 +2222,7 @@ GameObject:
   - component: {fileID: 2085201435}
   - component: {fileID: 2085201434}
   m_Layer: 0
-  m_Name: Virtual Camera (1)
+  m_Name: Virtual Camera (top-down)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2241,7 +2241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
+    Enabled: 1
     m_Value: 0
   OutputChannel: 1
   StandbyUpdate: 2
@@ -2279,8 +2279,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2085201433}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23911765, y: -0.3696438, z: 0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: 10.8, y: 9.444552, z: -10.536003}
+  m_LocalRotation: {x: -0.26361015, y: -0.6579065, z: 0.26542196, w: -0.65362066}
+  m_LocalPosition: {x: -9.126332, y: 8.890025, z: -0.43639213}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
