@@ -146,8 +146,8 @@ Transform:
   m_GameObject: {fileID: 33827880}
   serializedVersion: 2
   m_LocalRotation: {x: -0.0021661278, y: -0.6924758, z: 0.0020791774, w: 0.7214349}
-  m_LocalPosition: {x: 0, y: -0.105, z: 0}
-  m_LocalScale: {x: 0.14, y: 0.005, z: 0.14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.28, y: 0.22, z: 0.28}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 285523143}
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
     Enabled: 1
-    m_Value: 5
+    m_Value: 13
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -635,7 +635,7 @@ Transform:
   m_GameObject: {fileID: 285523142}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.18}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -657,9 +657,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BackpackTankVisual
   paintTank: {fileID: 2099380157}
   liquid: {fileID: 33827881}
-  bottomLocalY: -0.11
-  maxHalfHeight: 0.11
-  minHalfHeight: 0.005
+  bottomLocalY: -0.22
+  maxHalfHeight: 0.22
+  minHalfHeight: 0.01
 --- !u!1 &302321752 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 0b6fafa63b69b174584365f2641586a4, type: 3}
@@ -810,6 +810,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329681537}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &342200277 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6760820861431374348, guid: 6ce2ca4393664d6458bbda59da45f5a3, type: 3}
+  m_PrefabInstance: {fileID: 393880402}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &393880402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -869,6 +874,10 @@ PrefabInstance:
     - target: {fileID: 3144537326217312106, guid: 6ce2ca4393664d6458bbda59da45f5a3, type: 3}
       propertyPath: m_Name
       value: CharacterModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8505145141729572778, guid: 6ce2ca4393664d6458bbda59da45f5a3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2452,7 +2461,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.0021661278, y: -0.6924758, z: 0.0020791774, w: 0.7214349}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.18, y: 0.15, z: 0.18}
+  m_LocalScale: {x: 0.35, y: 0.3, z: 0.35}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 285523143}
@@ -3093,8 +3102,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948287942}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.26361015, y: -0.6579065, z: 0.26542196, w: -0.65362066}
-  m_LocalPosition: {x: -9.126332, y: 8.890025, z: -0.43639213}
+  m_LocalRotation: {x: 0.23911765, y: -0.3696438, z: 0.09904577, w: 0.89239913}
+  m_LocalPosition: {x: 10.8, y: 9.444552, z: -10.536003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3450,6 +3459,8 @@ GameObject:
   - component: {fileID: 2099380151}
   - component: {fileID: 2099380156}
   - component: {fileID: 2099380157}
+  - component: {fileID: 2099380159}
+  - component: {fileID: 2099380158}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3543,6 +3554,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PaintTank
   config: {fileID: 11400000, guid: bdbf018e08735914abd50c2f4b8d83ac, type: 2}
+--- !u!114 &2099380158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099380150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cccb96d615e3d4793961104be82ad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterBobMotion
+  playerMovement: {fileID: 2099380151}
+  modelRoot: {fileID: 393880403}
+  bobAmplitude: 0.05
+  bobSpeed: 8
+  returnSpeed: 6
+--- !u!114 &2099380159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099380150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52718b5409594f849aa16e33958f7672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GunAimPose
+  aimOrigin: {fileID: 2099380155}
+  aimBone: {fileID: 342200277}
+  muzzleReference: {fileID: 820023730}
+  aimDistance: 5
+  aimOffset: {x: 0, y: 1.3, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
