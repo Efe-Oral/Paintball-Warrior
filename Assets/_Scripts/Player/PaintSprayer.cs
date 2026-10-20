@@ -55,23 +55,24 @@ public class PaintSprayer : MonoBehaviour
         Vector3 impactPoint = groundPos + direction * (config.gunForwardOffset + config.muzzleOffset);
         Vector3 impactNormal = Vector3.up;
         PaintableStructure hitStructure = null;
+        bool blocked = false;
 
         if (Physics.Raycast(muzzlePos, direction, out RaycastHit hit, config.muzzleOffset))
         {
-            PaintableStructure structure = hit.collider.GetComponentInParent<PaintableStructure>();
-            if (structure != null)
-            {
-                hitStructure = structure;
-                flightTarget = hit.point;
-                impactPoint = hit.point;
-                impactNormal = hit.normal;
-            }
+            // Any solid geometry in the way stops the ball here, whether or not it's
+            // a paintable structure — that's what creates a paint shadow on the floor
+            // beyond it.
+            blocked = true;
+            flightTarget = hit.point;
+            impactPoint = hit.point;
+            impactNormal = hit.normal;
+            hitStructure = hit.collider.GetComponentInParent<PaintableStructure>();
         }
 
-        SpawnPaintBall(muzzlePos, flightTarget, impactPoint, impactNormal, hitStructure);
+        SpawnPaintBall(muzzlePos, flightTarget, impactPoint, impactNormal, hitStructure, blocked);
     }
 
-    private void SpawnPaintBall(Vector3 from, Vector3 flightTarget, Vector3 impactPoint, Vector3 impactNormal, PaintableStructure structure)
+    private void SpawnPaintBall(Vector3 from, Vector3 flightTarget, Vector3 impactPoint, Vector3 impactNormal, PaintableStructure structure, bool blocked)
     {
         GameObject ball = new GameObject("PaintBall");
         ball.transform.position = from;
@@ -86,7 +87,7 @@ public class PaintSprayer : MonoBehaviour
         meshRenderer.receiveShadows = false;
 
         PaintBall paintBall = ball.AddComponent<PaintBall>();
-        paintBall.Launch(from, flightTarget, impactPoint, impactNormal, config.ballSpeed, coverageGrid, config.paintRadius, structure, SpawnSplat);
+        paintBall.Launch(from, flightTarget, impactPoint, impactNormal, config.ballSpeed, coverageGrid, config.paintRadius, structure, blocked, SpawnSplat);
     }
 
     private void SpawnSplat(Vector3 position, Vector3 normal)

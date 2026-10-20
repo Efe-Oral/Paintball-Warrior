@@ -10,6 +10,7 @@ public class PaintBall : MonoBehaviour
     private CoverageGrid coverageGrid;
     private float paintRadius;
     private PaintableStructure structure;
+    private bool blocked;
     private Action<Vector3, Vector3> onImpact;
 
     public void Launch(
@@ -21,6 +22,7 @@ public class PaintBall : MonoBehaviour
         CoverageGrid grid,
         float radius,
         PaintableStructure hitStructure,
+        bool hitBlocked,
         Action<Vector3, Vector3> impactCallback)
     {
         transform.position = from;
@@ -31,6 +33,7 @@ public class PaintBall : MonoBehaviour
         coverageGrid = grid;
         paintRadius = radius;
         structure = hitStructure;
+        blocked = hitBlocked;
         onImpact = impactCallback;
     }
 
@@ -50,10 +53,13 @@ public class PaintBall : MonoBehaviour
         {
             structure.Hit(impactPoint);
         }
-        else
+        else if (!blocked)
         {
+            // Nothing in the way — paint reached the open floor.
             coverageGrid.MarkCircle(impactPoint, paintRadius);
         }
+        // else: hit a plain (non-paintable) obstacle. It blocked the paint — leave a
+        // splat for feedback via onImpact below, but no coverage is credited anywhere.
 
         onImpact?.Invoke(impactPoint, impactNormal);
         Destroy(gameObject);

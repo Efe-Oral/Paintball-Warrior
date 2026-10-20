@@ -26,6 +26,51 @@ public class CoverageGrid : MonoBehaviour
         rows = Mathf.Max(1, Mathf.CeilToInt(bounds.size.z / cellSize));
         painted = new bool[columns * rows];
         originWorld = new Vector3(bounds.min.x, bounds.max.y, bounds.min.z);
+
+        ExcludeSolidFootprints();
+    }
+
+    // Floor cells under a solid structure's footprint can never actually be reached by
+    // paint (any ball aimed there gets redirected to the structure's surface instead),
+    // so pre-credit them rather than letting them permanently shrink the max reachable
+    // ground coverage %.
+    private void ExcludeSolidFootprints()
+    {
+        foreach (PaintableStructure structure in FindObjectsByType<PaintableStructure>(FindObjectsSortMode.None))
+        {
+            Collider collider = structure.GetComponent<Collider>();
+            if (collider == null)
+            {
+                continue;
+            }
+
+            ExcludeFootprint(collider.bounds);
+        }
+
+        CoveragePercent = painted.Length > 0 ? (float)paintedCount / painted.Length : 0f;
+    }
+
+    private void ExcludeFootprint(Bounds bounds)
+    {
+        int minCol = Mathf.Clamp(WorldToColumn(bounds.min.x), 0, columns - 1);
+        int maxCol = Mathf.Clamp(WorldToColumn(bounds.max.x), 0, columns - 1);
+        int minRow = Mathf.Clamp(WorldToRow(bounds.min.z), 0, rows - 1);
+        int maxRow = Mathf.Clamp(WorldToRow(bounds.max.z), 0, rows - 1);
+
+        for (int row = minRow; row <= maxRow; row++)
+        {
+            for (int col = minCol; col <= maxCol; col++)
+            {
+                int index = row * columns + col;
+                if (painted[index])
+                {
+                    continue;
+                }
+
+                painted[index] = true;
+                paintedCount++;
+            }
+        }
     }
 
     public void MarkCircle(Vector3 worldPos, float radius)
