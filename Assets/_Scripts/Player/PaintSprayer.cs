@@ -7,8 +7,10 @@ public class PaintSprayer : MonoBehaviour
     [SerializeField] private CoverageGrid coverageGrid;
     [SerializeField] private PaintTank paintTank;
     [SerializeField] private Transform splatContainer;
+    [SerializeField] private GunData defaultGun;
 
     private PlayerMovement playerMovement;
+    private GunData activeGun;
     private float sprayTimer;
     private Mesh splatMesh;
     private Mesh ballMesh;
@@ -17,6 +19,7 @@ public class PaintSprayer : MonoBehaviour
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        activeGun = GunSelection.SelectedGun != null ? GunSelection.SelectedGun : defaultGun;
         splatMesh = CreatePrimitiveMesh(PrimitiveType.Cylinder);
         ballMesh = CreatePrimitiveMesh(PrimitiveType.Sphere);
 
@@ -32,7 +35,7 @@ public class PaintSprayer : MonoBehaviour
             return;
         }
 
-        paintTank.Drain(config.drainRate * Time.deltaTime);
+        paintTank.Drain(config.drainRate * activeGun.drainMultiplier * Time.deltaTime);
 
         sprayTimer -= Time.deltaTime;
         if (sprayTimer > 0f)
@@ -46,8 +49,22 @@ public class PaintSprayer : MonoBehaviour
 
     private void Spray()
     {
+        Vector3 baseDirection = playerMovement.MoveDirection.normalized;
+
+        int rayCount = Mathf.Max(1, activeGun.rayCount);
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angle = rayCount == 1
+                ? 0f
+                : Mathf.Lerp(-activeGun.coneAngle / 2f, activeGun.coneAngle / 2f, (float)i / (rayCount - 1));
+            Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * baseDirection;
+            SprayRay(direction);
+        }
+    }
+
+    private void SprayRay(Vector3 direction)
+    {
         Vector3 groundPos = new Vector3(transform.position.x, coverageGrid.FloorHeight, transform.position.z);
-        Vector3 direction = playerMovement.MoveDirection.normalized;
         Vector3 muzzlePos = groundPos + direction * config.gunForwardOffset + Vector3.up * config.gunHeight;
 
         // Default: nothing in the way, paint lands on the floor at max range.

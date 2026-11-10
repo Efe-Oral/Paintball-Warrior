@@ -4867,6 +4867,7 @@ MonoBehaviour:
   coverageGrid: {fileID: 459756605}
   paintTank: {fileID: 2099380157}
   splatContainer: {fileID: 1666262072}
+  defaultGun: {fileID: 11400000, guid: a87100c78e9f65540a2681dd14494467, type: 2}
 --- !u!114 &2099380157
 MonoBehaviour:
   m_ObjectHideFlags: 0

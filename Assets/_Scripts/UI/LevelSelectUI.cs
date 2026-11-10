@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -8,6 +7,7 @@ public class LevelSelectUI : MonoBehaviour
     [SerializeField] private LevelChain levelChain;
     [SerializeField] private RectTransform listParent;
     [SerializeField] private GameObject buttonTemplate;
+    [SerializeField] private GunSelectUI gunSelectUI;
 
     private void Start()
     {
@@ -45,7 +45,7 @@ public class LevelSelectUI : MonoBehaviour
         if (unlocked)
         {
             string sceneName = level.sceneName;
-            button.onClick.AddListener(() => SceneManager.LoadScene(sceneName));
+            button.onClick.AddListener(() => gunSelectUI.Open(sceneName));
         }
 
         CanvasGroup group = entry.GetComponent<CanvasGroup>();
