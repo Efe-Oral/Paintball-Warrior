@@ -22,9 +22,11 @@ public class GameplayConfig : ScriptableObject
     public float sprayInterval = 0.08f;
 
     [Header("Level")]
-    [Range(0f, 1f)] public float coverageThreshold = 0.85f;
+    [Range(0f, 1f)] public float coverageThreshold = 1f;
     [Range(0f, 1f)] public float star2RemainingThreshold = 0.5f;
     [Range(0f, 1f)] public float star3RemainingThreshold = 0.75f;
+    [Tooltip("Seconds on the level timer. Running out fails the level, same as running out of paint.")]
+    public float levelTimeLimit = 180f;
 
     [Header("Paint Tank")]
     public float paintTankCapacity = 100f;

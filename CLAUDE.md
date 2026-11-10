@@ -9,6 +9,35 @@ not silently change it.
 
 ---
 
+## Amendment (2026-11-10) — reference game adopted
+
+Developer shared screenshots of **"Pressure Wash Panic!"** (a PC-style pressure
+washing game) and asked to adapt its levels/visuals/game loop. Several of its
+mechanics directly conflicted with locked decisions below. Flagged before
+building; developer made explicit calls on each:
+
+- **Core verb stays painting**, not cleaning. Reference's "spray water to
+  remove dirt" was NOT adopted — this is still a paint-coverage game.
+- **Controls stay locked as-is**: single joystick, auto-fire, no aim stick,
+  no fire button. Reference's WASD+mouse-aim+manual-fire was NOT adopted —
+  this is still mobile-first, single-thumb.
+- **Timer: ADDED**, as a constraint alongside the paint tank (not a
+  replacement for it). This reverses the "no timer" rule below.
+- **Coverage threshold: raised to 100%**. This reverses the "never require
+  100%" rule below.
+- **Popup tutorial: ADDED**, styled on the reference's "Lesson X of Y" cards
+  with a skip option. This reverses the "no text, no popups" rule below.
+
+Everywhere the sections below say "no timer," "85-90%," or "no popups,"
+treat this amendment as the current truth instead. The original reasoning
+wasn't wrong, it was just superseded by an informed choice to match the
+reference. Other reference elements (warning→strike→fired system for
+hazard objects, jobs-board level list, stars/payout breakdown, pause menu
+layout, cartoon art direction) are being evaluated incrementally, not
+adopted wholesale in one pass.
+
+---
+
 ## Working agreement
 
 **Build one step at a time. Stop after each step and wait for feedback.**
@@ -78,13 +107,16 @@ Brawl Stars style. The whole arena fits on screen at once.
 - **Ground coverage:** percentage of the arena floor painted.
 - **Structures:** discrete objects (crates, pillars) that must be **fully
   painted** to count. Binary, no partial credit.
-- A level is passed at a **coverage threshold of roughly 85-90%** (tunable).
-  Never require 100%, that produces unfair, illegible failures.
+- A level is passed at a **coverage threshold of 100%** (see amendment above —
+  this reverses the original 85-90% rule, by explicit developer choice).
 
 ### Constraint and failure
-- **Paint tank only. No timer.**
+- **Paint tank, plus a level timer** (see amendment above — timer reverses
+  the original "no timer" rule, by explicit developer choice). Both are
+  constraints: run out of either below the threshold and the level fails.
 - One tank per level. **No refill stations in v1.**
-- When the tank hits zero below the threshold, the level fails immediately.
+- When the tank hits zero, or the timer hits zero, below the threshold, the
+  level fails immediately.
 - On failure: offer a rewarded ad for a fresh tank. **One continue per level
   attempt.** An ad-rescued run is capped at 1 star. Fail again and restart the
   level.
@@ -131,7 +163,9 @@ publisher judges, and a game that feels like a toll booth gets uninstalled.
 - 15-20 levels, **linear chain**. No world map.
 - **Level 1:** no-fail sandbox. Open room, no obstacles, no structures,
   generous tank. One gun. A visible **locked weapon rack** on the wall to plant
-  desire. **No text, no popups, no tutorial UI.**
+  desire. **Popup tutorial allowed** (see amendment above — reverses the
+  original "no text, no popups" rule), styled as short "Lesson X of Y" cards
+  with a skip option, not a wall of text.
 - **Level 2:** adds structures (crates). Still no obstacles.
 - **Level 3:** adds obstacles, tall pillars, blocked sightlines, paint shadows.
   Tighter tank.
@@ -172,7 +206,8 @@ Starting placeholder values (round numbers, all to be balanced later):
 - Paint tank: 100 units
 - Drain rate: 10 units/sec
 - Move speed, spray cone width, spray range: pick sensible defaults
-- Coverage threshold: 85%
+- Coverage threshold: 100% (see amendment above)
+- Level timer: pick a sensible default per level, generous to start (see amendment above)
 - Coins per star, gun prices: generous to start
 
 ### Analytics
@@ -250,9 +285,7 @@ Do not build any of these without being asked:
 - Levers, buttons, gates, sequential unlock levels
 - Daily rewards, battle pass, cosmetics, IAP
 - Real art, models, textures, animation
-- Timers as a level constraint
 - A world map
-- Text tutorials or popup instructions
 
 ---
 
@@ -260,7 +293,6 @@ Do not build any of these without being asked:
 
 If asked to do any of these, say so:
 
-- Requiring 100% coverage to pass a level
 - Making any weapon mandatory to progress
 - Adding ad placements inside active gameplay
 - Hardcoding tunable numbers

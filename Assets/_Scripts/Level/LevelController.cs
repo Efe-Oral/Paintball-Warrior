@@ -10,6 +10,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameplayConfig config;
     [SerializeField] private CoverageGrid coverageGrid;
     [SerializeField] private PaintTank paintTank;
+    [SerializeField] private LevelTimer timer;
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PaintSprayer paintSprayer;
 
@@ -28,6 +29,7 @@ public class LevelController : MonoBehaviour
     {
         coverageGrid.CoverageChanged += HandleCoverageChanged;
         paintTank.Emptied += HandleTankEmptied;
+        timer.TimedOut += HandleTimedOut;
 
         foreach (PaintableStructure structure in structures)
         {
@@ -39,6 +41,7 @@ public class LevelController : MonoBehaviour
     {
         coverageGrid.CoverageChanged -= HandleCoverageChanged;
         paintTank.Emptied -= HandleTankEmptied;
+        timer.TimedOut -= HandleTimedOut;
 
         foreach (PaintableStructure structure in structures)
         {
@@ -77,6 +80,14 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    private void HandleTimedOut()
+    {
+        if (state == State.Playing)
+        {
+            Lose();
+        }
+    }
+
     private void TryWin()
     {
         if (state != State.Playing)
@@ -105,6 +116,7 @@ public class LevelController : MonoBehaviour
         state = State.Won;
         playerMovement.enabled = false;
         paintSprayer.enabled = false;
+        timer.Stop();
 
         float remaining = paintTank.NormalizedRemaining;
         int stars = 1;
@@ -125,6 +137,7 @@ public class LevelController : MonoBehaviour
         state = State.Lost;
         playerMovement.enabled = false;
         paintSprayer.enabled = false;
+        timer.Stop();
 
         LevelLost?.Invoke(coverageGrid.CoveragePercent);
     }
