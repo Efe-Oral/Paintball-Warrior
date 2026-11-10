@@ -28,6 +28,10 @@ public class GameplayConfig : ScriptableObject
     [Tooltip("Seconds on the level timer. Running out fails the level, same as running out of paint.")]
     public float levelTimeLimit = 180f;
 
+    [Header("Economy")]
+    [Tooltip("Coins awarded per star earned on level completion. Start generous.")]
+    public int coinsPerStar = 20;
+
     [Header("Paint Tank")]
     public float paintTankCapacity = 100f;
     [Tooltip("Units of paint drained per second while actively spraying.")]

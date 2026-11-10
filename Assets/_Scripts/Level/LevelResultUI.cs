@@ -55,8 +55,11 @@ public class LevelResultUI : MonoBehaviour
     {
         LevelProgress.ReportResult(levelIndex, stars);
 
+        int coinsEarned = config.coinsPerStar * stars;
+        CoinWallet.Add(coinsEarned);
+
         int percent = Mathf.FloorToInt(coveragePercent * 100f);
-        winText.text = "Level Complete!\nCoverage: " + percent + "%\nStars: " + stars + "/3";
+        winText.text = "Level Complete!\nCoverage: " + percent + "%\nStars: " + stars + "/3\nCoins: +" + coinsEarned;
         winPanel.SetActive(true);
     }
 

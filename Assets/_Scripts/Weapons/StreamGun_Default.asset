@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df185b4a4d09074db5486b2b45abece, type: 3}
   m_Name: StreamGun_Default
   m_EditorClassIdentifier: Assembly-CSharp::GunData
+  id: stream_gun
   displayName: Stream Gun
   description: The free starter. Medium everything, no weaknesses. Every level can
     be cleared with this alone.
+  price: 0
   coneAngle: 0
   rayCount: 1
   drainMultiplier: 1

@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df185b4a4d09074db5486b2b45abece, type: 3}
   m_Name: FanSprayer_Default
   m_EditorClassIdentifier: Assembly-CSharp::GunData
+  id: fan_sprayer
   displayName: Fan Sprayer
   description: Wide cone, fast floor coverage. Heavy overspray wastes paint, and
     the spread makes it unreliable on structure faces.
+  price: 100
   coneAngle: 50
   rayCount: 3
   drainMultiplier: 1.8

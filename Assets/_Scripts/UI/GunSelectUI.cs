@@ -6,7 +6,7 @@ using TMPro;
 public class GunSelectUI : MonoBehaviour
 {
     [SerializeField] private GameObject panelRoot;
-    [SerializeField] private GunData[] availableGuns;
+    [SerializeField] private WeaponRoster weaponRoster;
     [SerializeField] private Button[] gunButtons;
     [SerializeField] private TMP_Text[] gunNameLabels;
     [SerializeField] private Image[] gunSelectionHighlights;
@@ -22,7 +22,6 @@ public class GunSelectUI : MonoBehaviour
         {
             int index = i;
             gunButtons[i].onClick.AddListener(() => SelectGun(index));
-            gunNameLabels[i].text = availableGuns[i].displayName;
         }
 
         playButton.onClick.AddListener(Play);
@@ -33,14 +32,27 @@ public class GunSelectUI : MonoBehaviour
     public void Open(string sceneName)
     {
         pendingSceneName = sceneName;
+        RefreshButtons();
         SelectGun(0);
         panelRoot.SetActive(true);
     }
 
+    private void RefreshButtons()
+    {
+        GunData[] guns = weaponRoster.guns;
+        for (int i = 0; i < gunButtons.Length && i < guns.Length; i++)
+        {
+            bool owned = GunOwnership.IsOwned(guns[i]);
+            gunButtons[i].interactable = owned;
+            gunNameLabels[i].text = owned ? guns[i].displayName : guns[i].displayName + "\n(Locked)";
+        }
+    }
+
     private void SelectGun(int index)
     {
-        GunSelection.SelectedGun = availableGuns[index];
-        descriptionText.text = availableGuns[index].description;
+        GunData gun = weaponRoster.guns[index];
+        GunSelection.SelectedGun = gun;
+        descriptionText.text = gun.description;
 
         for (int i = 0; i < gunSelectionHighlights.Length; i++)
         {

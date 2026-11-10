@@ -8,6 +8,13 @@ public class LevelSelectUI : MonoBehaviour
     [SerializeField] private RectTransform listParent;
     [SerializeField] private GameObject buttonTemplate;
     [SerializeField] private GunSelectUI gunSelectUI;
+    [SerializeField] private ShopUI shopUI;
+    [SerializeField] private Button shopButton;
+
+    private void Awake()
+    {
+        shopButton.onClick.AddListener(shopUI.Open);
+    }
 
     private void Start()
     {

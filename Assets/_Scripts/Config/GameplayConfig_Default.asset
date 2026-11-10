@@ -22,6 +22,7 @@ MonoBehaviour:
   star2RemainingThreshold: 0.5
   star3RemainingThreshold: 0.75
   levelTimeLimit: 180
+  coinsPerStar: 20
   paintTankCapacity: 200
   drainRate: 10
   structureSegments: 8
